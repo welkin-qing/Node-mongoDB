@@ -11,10 +11,7 @@ var app = express()
 var avatar = require('./controllers/avatar')
 
 app.use('/public/', express.static(path.join(__dirname, './public/')))
-app.use(
-    '/node_modules/',
-    express.static(path.join(__dirname, './node_modules/'))
-)
+app.use('/node_modules/',express.static(path.join(__dirname, './node_modules/')))
 app.use('/uploads', express.static('./uploads'))
 
 app.engine('html', require('express-art-template'))
@@ -48,6 +45,7 @@ app.use(router)
 app.get('/avatar', avatar.showPage)
 app.post('/avatar', avatar.doAvatar)
 app.get('/settings/cut', avatar.cutPage)
+app.post("/settings/cut" ,avatar.saveAvatar);
 
 // 配置一个处理 404 的中间件
 app.use(function(req, res) {

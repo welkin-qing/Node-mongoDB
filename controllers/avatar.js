@@ -75,6 +75,7 @@ exports.cutPage = (req, res) => {
 
 //处理裁剪
 exports.saveAvatar = (req, res) => {
+    console.log('cccccccc')
     var form = new formidable.IncomingForm()
     var avatarurl = path.resolve(
         __dirname,
@@ -98,7 +99,7 @@ exports.saveAvatar = (req, res) => {
                                     '../uploads/images/' + req.session.cuturl
                             }
                         },
-                        function(err, result) {
+                        function (err, result) {
                             console.log(11)
                             if (result !== '') {
                                 res.json({

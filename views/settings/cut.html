@@ -271,7 +271,7 @@
     $("#submit").click(function(){
         var rate = {{ origin_w }}/{{ view_w }};
         console.log(moveTop,moveLeft);
-         $.post("/cut",{
+         $.post("/settings/cut",{
                   "wh":cutXY*rate,
                   "y":moveTop*rate,
                   "x":moveLeft*rate
