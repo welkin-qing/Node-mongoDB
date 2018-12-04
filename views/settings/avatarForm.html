@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../public/css/bootstrapValidator.css">
+    <style>
+        #fileinput {
+            border: 1px solid #eee;
+            display: none;
+        }
+
+        .filesize::after {
+            content: "B"
+        }
+
+        .upload {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 200px;
+            background: rgba(229, 229, 229, .1);
+            color: rgba(0, 0, 0, .2);
+            font-size: 115px;
+            margin: 15px auto;
+            font-weight: 100;
+            cursor: pointer;
+        }
+
+        .size {
+            padding: 6px 12px;
+            color: #fff;
+            background-color: #5cb85c;
+            font-size: 14px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../public/js/bootstrapValidator.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form id="myAvatar" class="form-horizontal col-lg-12 col-xs-12" method="POST" action="/avatar" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-lg-4  col-xs-12 control-label" style="padding: 0" for="fileinput">
+                    <input type="file" id="fileinput" name="realfile" />
+                    <p class="upload">+</p>
+                </label>
+                <div class="col-lg-4 col-xs-6 col-xs-offset-3" style="text-align:center;">
+                    <input type="text" class="form-control ava-dir" name="avatar" readonly>
+                </div>
+            </div>
+            <div class="form-group" style="line-height:32px">
+                <label class="col-lg-4  col-xs-3 control-label" style="padding: 0">
+                    <span class="size">大小</span>
+                </label>
+                <div class="col-lg-4 col-xs-6" style=" margin: 0 0 10px 0;">
+                    <input type="text" class="form-control filesize" name="filesize" readonly>
+
+                </div>
+                <kbd>Byte</kbd>
+            </div>
+            <button class="btn btn-success" type="submit" style="margin:auto;display:block;">提交</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //图片验证器
+            $('#myAvatar').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    avatar: {
+                        trigger: 'input propertychange change focus',
+                        validators: {
+                            regexp: {
+                                regexp: /\w(\.jpeg|\.png|\.jpg)/i,
+                                message: '仅支持上传jpeg,png,jpg格式的图片'
+                            },
+                            notEmpty: {
+                                message: '请上传文件！'
+                            },
+                        }
+                    },
+                    filesize: {
+                        trigger: 'input propertychange change focus',
+                        validators: {
+                            lessThan: {
+                                value: 5 * 1024 * 1024,
+                                inclusive: true,
+                                message: '文件不能大于5M'
+                            },
+                        }
+                    },
+                },
+            });
+
+
+            $("#fileinput").on("input", function () {
+                $(".ava-dir").val($("#fileinput").val());
+                $(".ava-dir").focus();
+                $(".filesize").val($("input[name=realfile]").get(0).files[0].size);
+                $(".filesize").focus();
+            })
+
+
+        });
+    </script>
+</body>
+
+</html>

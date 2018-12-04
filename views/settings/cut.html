@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../public/css/jquery-ui.min.css">
+    <script src="../public/js/jquery-1.12.4.js"></script>
+    <script src="../public/js/jquery-ui.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wap {
+            position: relative;
+        }
+
+        .editbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .mask {
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .imgbox {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px black dashed;
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .imgbox>img {
+            position: relative;
+        }
+
+        .l {
+            width: 0;
+            height: 200%;
+            border: 0.5px #eee dashed;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            animation: move-left 5s linear 0s infinite;
+        }
+
+        @-webkit-keyframes move-left {
+            from {
+                top: -100%;
+            }
+            to {
+                top: 0px;
+            }
+        }
+
+        .b {
+            width: 200%;
+            height: 0;
+            border: 0.5px #eee dashed;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            animation: move-bottom 5s linear 0s infinite;
+        }
+
+        @-webkit-keyframes move-bottom {
+            from {
+                left: -100%;
+            }
+            to {
+                left: 0;
+            }
+        }
+
+        .r {
+            width: 0;
+            height: 200%;
+            border: 0.5px #eee dashed;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            animation: move-right 5s linear 0s infinite;
+        }
+
+       @-webkit-keyframes move-right {
+            from {
+                top: 0;
+            }
+            to {
+                top: -100%;
+            }
+        }
+
+        .t {
+            width: 200%;
+            height: 0;
+            border: 0.5px #eee dashed;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            animation: move-top 5s linear 0s infinite;
+        }
+
+       @-webkit-keyframes move-top {
+            from {
+                left: 0;
+            }
+            to {
+                left: -100%;
+            }
+        }
+
+        .preview {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .views {
+            overflow: hidden;
+            float: left;
+            position: relative;
+        }
+
+        .views>img {
+            position: relative;
+        }
+
+        .big {
+            width: 240px;
+            height: 240px;
+            top: 0;
+            right: -215px;
+            display: none;
+            padding: 0;
+        }
+
+        .medium {
+            width: 150px;
+            height: 150px;
+            top: 120px;
+            right: 45px;
+            padding: 0;
+        }
+
+        .small {
+            width: 60px;
+            height: 60px;
+            top: 340px;
+            left: -17px;
+            display: none;
+            padding: 0;
+        }
+
+        .limitedbox {
+            height: 400px;
+            width: 500px;
+        }
+
+        .opera {
+            text-align: center;
+        }
+
+        .opera>button {
+            display: inline-block;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="wap container ">
+        <div class="limitedbox">
+            <div class="editbox" id="editbox">
+                <img src="/uploads/images/{{ cuturl }}" height="{{ view_h }}" width="{{ view_w }}" />
+                <div class="imgbox" id="draggable">
+                    <img src="/uploads/images/{{ cuturl }}" height="{{ view_h }}" width="{{ view_w }}" />
+                    <p class="l"></p>
+                    <p class="b"></p>
+                    <p class="r"></p>
+                    <p class="t"></p>
+                </div>
+            </div>
+            <div class="mask " style="padding: 0;height: {{ view_h }}; width: {{ view_w }};"></div>
+        </div>
+        <div class="preview"> 
+            <div data-init-size="240" class="big views  hidden-xs">
+                <img src="/uploads/images/{{ cuturl }}" height="{{ view_h }}" width="{{ view_w }}" />
+            </div>
+            <div data-init-size="150" class="medium views   col-xs-12">
+                <img src="/uploads/images/{{ cuturl }}" height="{{ view_h }}" width="{{ view_w }}" />
+            </div>
+            <div data-init-size="60" class="small views  hidden-xs">
+                <img src="/uploads/images/{{ cuturl }}" height="{{ view_h }}" width="{{ view_w }}" />
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12 opera">
+            <button class="btn btn-success" id="submit">提交</button>
+            <button class="btn btn-success" onclick="window.location='/avatar'">
+                取消
+            </button>
+        </div>
+    </div>
+<script>
+    //拖拽
+   $( "#draggable" ).draggable({
+         containment: "#editbox",
+         drag: function(event,ui){
+            moveTop=ui.position.top;//获取移动top的值 
+            moveLeft=ui.position.left;//获取移动left的值
+            $(".imgbox>img").css({
+                "top":-moveTop,//图片反方向移动top的值
+                "left":-moveLeft,//图片反方向移动left的值
+            });
+            rerizeImg();
+		},
+    });
+    //放大缩小
+    $( "#draggable" ).resizable({
+        aspectRatio: 1 / 1,
+        containment: "#editbox",
+        resize:function(event,ui){
+            cutXY=ui.size.width;
+            rerizeImg();
+        }
+
+    });
+
+
+    var initX= {{ view_w }};//原始图片宽
+    var initY= {{ view_h }};//原始图片高
+    var cutXY=100;//裁剪图片宽高
+
+    var moveTop=0;//拖拽移动的y
+    var moveLeft=0;//拖拽移动的x
+    rerizeImg();
+    function rerizeImg(){
+        $(".preview>.views").each(function(){
+              var initsize=parseInt($(this).data("init-size"));//裁剪后图片宽高
+              //按照比例给预览图设置宽高，图片位置
+              $(this).find("img").css({
+                   //图片宽高   宽度：裁剪宽/图片宽=预览窗口宽/预览图宽  高度：裁剪高/图片高=预览窗口高/预览图高  
+                   //预览窗口和裁剪窗口的宽高都一样 
+                   "width" :initsize*initX/cutXY,
+                   "height":initsize*initY/cutXY,
+                   //图片位置
+                   "top"   :-moveTop*initsize/cutXY,
+                   "left"  :-moveLeft*initsize/cutXY,
+              })
+        })
+    }
+
+    $("#submit").click(function(){
+        var rate = {{ origin_w }}/{{ view_w }};
+        console.log(moveTop,moveLeft);
+         $.post("/cut",{
+                  "wh":cutXY*rate,
+                  "y":moveTop*rate,
+                  "x":moveLeft*rate
+         },function(data){
+             if(data.result){
+                  alert("修改成功！");
+                  location="/avatar";
+                  window.parent.getdata();
+                  window.parent.document.getElementsByClassName("model")[0].style.display="none";                
+             }else{
+                  alert("修改失败！请稍后重试！");
+             }
+         })
+    })
+</script>
+</body>
+
+</html>

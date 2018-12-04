@@ -1,0 +1,157 @@
+{{extend '../_layouts/home.html'}}
+
+{{block 'title'}}{{'多人博客 - 首页'}}{{/block}}
+{{block 'head'}}
+<style>
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #eee;
+    margin: auto;
+    background-size: 100% 100%;
+    margin-bottom: 25px;
+  }
+
+  .model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6) !important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .avatarBox {
+    width: 800px;
+    height: 540px;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    outline: 0;
+  }
+
+  .avatarBox div>.close {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    font-weight: lighter;
+    line-height: 1;
+    color: #000;
+    text-shadow: none;
+    filter: none;
+    opacity: 0.5;
+    font-size: 12px;
+  }
+</style>
+{{/block}}
+{{block 'body'}}
+<div class="model">
+  <div class="avatarBox container">
+    <div class="col-lg-12 col-xm-12" style="position: relative;">
+      <h3>更改头像</h3>
+      <span class="close glyphicon glyphicon-remove"></span>
+      <hr/>
+    </div>
+
+    
+    <iframe src="/settings/avatarForm" frameborder="0" width="100%" height="450"></iframe>
+  </div>
+</div>
+<section class="container">
+  {{include '../_partials/settings-nav.html'}}
+  <div class="col-md-5">
+    <form action="/info" id="basic_form" method="post"  enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="exampleInputEmail1">账号</label>
+        <p class="form-control-static">{{ user.email }}</p>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">昵称</label>
+        <input name="nickname" type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">介绍</label>
+        <textarea name="bio" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">性别</label>
+        <div>
+          <label class="radio-inline">
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+          </label>
+          <label class="radio-inline">
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+          </label>
+          <label class="radio-inline">
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 保密
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">生日</label>
+        <input name="birthday" type="password" class="form-control" id="exampleInputPassword2" placeholder="">
+      </div>
+      <button type="submit" class="btn btn-success">保存</button>
+    </form>
+  </div>
+  <div class="col-md-2 profile-avatar">
+    <dl>
+      <dt>头像设置</dt>
+      <dd>
+        <img class="avatar" name="avatar" width="150" height="150" src="../public/img/avatar-max-img.png" alt="">
+        <div>
+          <button type="button" class="btn btn-default edit-avatar">更换头像</button>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</section>
+{{/block}}
+{{block 'script'}}
+<script>
+  $('#basic_form').on('submit', function (e) {
+      e.preventDefault()
+      var formData = $(this).serialize()
+      console.log(formData)
+      $.ajax({
+        url: '/settings/profile',
+        type: 'post',
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+          var err_code = data.err_code
+          if (err_code === 0) {
+            // window.alert('注册成功！')
+            // 服务端重定向针对异步请求无效
+            window.location.href = '/'
+          } else if (err_code === 1) {
+            window.alert('邮箱或者密码错误')
+          } else if (err_code === 500) {
+            window.alert('服务器忙，请稍后重试！')
+          }
+        }
+      })
+    })
+</script>
+<script>
+  $(function () {
+    $(".close").click(function () {
+      $(".model").css({
+        "display": "none"
+      });
+    })
+    $(".edit-avatar").click(function () {
+      $(".model").css({
+        "display": "flex"
+      });
+    })
+  })
+</script>
+{{/block}}
