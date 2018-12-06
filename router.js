@@ -110,19 +110,28 @@ router.post('/register', function (req, res, next) {
 })
 
 router.get('/topic/new',function(req, res){
-  res.render('topic/new.html', {
-    user: req.session.user
-  })
+  
+  if(req.session.user){
+    res.render('topic/new.html', {
+      user: req.session.user
+    })
+  }else{
+    res.render('login.html')
+  }
 })
 
 router.get('/topic/show',function(req, res){
-  res.render('topic/show.html', {
-    user: req.session.user
-  })
+  
+  if(req.session.user){
+    res.render('topic/show.html', {
+      user: req.session.user
+    })
+  }else{
+    res.render('login.html')
+  }
 })
 //请求profile页面
 router.get('/settings/profile',function(req, res){
-  
   if(req.session.user){
     res.render('settings/profile.html', {
       user: req.session.user
@@ -133,15 +142,15 @@ router.get('/settings/profile',function(req, res){
 })
 
 router.post('/settings/profile',function (req, res, next) {
+  console.log(req.session.user)
+  console.log(avatarurl)
   var body = req.body
-  var file = req.file
   console.log(body)
-  console.log(file)
   var form = new formidable.IncomingForm()
   //设置图片上传的存放地址
   // form.uploadDir = "./uploads"
    form.parse(req, function (err, fields, files) {
-    console.log('111111111')
+    //console.log('111111111')
     console.log(files)
   //   //生成随机数
   //   var ran = parseInt(Math.random()*8999+10000)
@@ -205,28 +214,26 @@ router.post('/settings/admin', function (req, res, next) {
     if (err) {
       return next(err)
     } else {
-      //console.log(user)
-      // console.log(req.session.user.password)
+
       str = req.session.user.password
       if (str === md5(md5(body.password[0]))) {
         if (body.password[1] === body.password[2]) {
-          // console.log('88888888888888888888888888')
+
           User.update({ email: req.session.user.email }, { $set: { password: md5(md5(body.password[1])) } }, function (err, user) {
-            // console.log('99999999999999999999')
+
             if (err) {
-              // console.log('5555555555555555555')
+
               return next(err)
 
             }
-            //console.log('44444444444444')
             req.session.user = user
-            // console.log('33333333333333')
+
             res.status(200).json({
               err_code: 0,
               message: 'OK'
             })
           })
-          //console.log(user.password)
+
         } else {
           return res.status(200).json({
             err_code: 2,

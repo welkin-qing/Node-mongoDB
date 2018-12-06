@@ -5,14 +5,12 @@ var fs = require('fs')
 var gm = require('gm')
 var user = require('../models/user')
 
-console.log('111111')
 exports.showPage = (req, res) => {
-    res.render('avatarForm', {})
+    res.render('settings/avatarForm.html', {})
 }
 //上传图片
 
 exports.doAvatar = (req, res) => {
-    console.log('222222')
     var form = new formidable.IncomingForm()
     form.uploadDir = path.join(__dirname, '../uploads/images')
     form.keepExtensions = true
@@ -32,7 +30,6 @@ exports.doAvatar = (req, res) => {
 }
 //下发要裁剪的图片
 exports.cutPage = (req, res) => {
-    console.log('33333333333')
     /*调试语句*开始*/
     if (req.session.cuturl == '') {
         res.redirect('/settings/profile')
@@ -75,47 +72,43 @@ exports.cutPage = (req, res) => {
 
 //处理裁剪
 exports.saveAvatar = (req, res) => {
-    console.log('cccccccc')
-    var form = new formidable.IncomingForm()
+    //var form = new formidable.IncomingForm()
     var avatarurl = path.resolve(
         __dirname,
         '../uploads/images/' + req.session.cuturl
     )
-    form.parse(req, (err, fields, files) => {
-        //得到裁剪的四个参数
-        // console.log(fields)
-        var x = fields.x //裁剪的left值
-        var y = fields.y //裁剪的top值
-        var wh = fields.wh //裁剪的宽高 宽高是一样
-        gm(avatarurl)
-            .crop(wh, wh, x, y)
-            .write(avatarurl, err => {
-                if (!err) {
-                    user.updateOne(
-                        { email: req.session.email },
-                        {
-                            $set: {
-                                avatar:
-                                    '../uploads/images/' + req.session.cuturl
-                            }
-                        },
-                        function (err, result) {
-                            console.log(11)
-                            if (result !== '') {
-                                res.json({
-                                    result: 1
-                                })
-                            }
+    console.log('55555555555'+avatarurl)
+    //console.log(req.body)
+    const { wh, y, x } = req.body
+    gm(avatarurl)
+        .crop(wh, wh, x, y)
+        .write(avatarurl, err => {
+            if (!err) {
+                user.updateOne(
+                    { email: req.session.email },
+                    {
+                        $set: {
+                            avatar:
+                                '../uploads/images/' + req.session.cuturl
                         }
-                    )
-                } else {
-                    console.log(err)
-                    res.json({
-                        result: 0
-                    })
-                }
-            }) //裁剪图片后覆盖原上传图片
-    })
+                    },
+                    function (err, result) {
+                        //console.log(11)
+                        if (result !== '') {
+                            res.json({
+                                result: 1
+                            })
+                        }
+                    }
+                )
+            } else {
+                console.log(err)
+                res.json({
+                    result: 0
+                })
+            }
+        }) //裁剪图片后覆盖原上传图片
+
 }
 
 //module.exports = avatar

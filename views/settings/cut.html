@@ -270,21 +270,34 @@
 
     $("#submit").click(function(){
         var rate = {{ origin_w }}/{{ view_w }};
+        //console.log('888')
+        //console.log(rate)
         console.log(moveTop,moveLeft);
-         $.post("/settings/cut",{
-                  "wh":cutXY*rate,
-                  "y":moveTop*rate,
-                  "x":moveLeft*rate
-         },function(data){
-             if(data.result){
-                  alert("修改成功！");
-                  location="/avatar";
-                  window.parent.getdata();
-                  window.parent.document.getElementsByClassName("model")[0].style.display="none";                
-             }else{
-                  alert("修改失败！请稍后重试！");
-             }
+        
+        var values={       
+              wh:cutXY*rate,
+              y:moveTop*rate,
+              x:moveLeft*rate
+        }
+         $.ajax({
+                  "url":"/settings/cut",
+                  "type":"POST",
+                  "data":values,
+                  "success":function(data){
+                        // console.log(data.result)
+                         if(data.result){
+                              alert("修改成功！");
+                              location="/avatar";
+                              window.parent.getdata();
+                              window.parent.document.getElementsByClassName("model")[0].style.display="none";
+                             // redirect('/settings/profile') 
+                         }else{
+                              alert("修改失败！请稍后重试！");
+                         }
+                   }
          })
+         //console.log(rate)
+         //console.log(cutXY)
     })
 </script>
 </body>

@@ -1,3 +1,4 @@
+//user表
 var mongoose = require('mongoose')
 
 // 连接数据库

@@ -9,6 +9,7 @@ var router = require('./router')
 var app = express()
 
 var avatar = require('./controllers/avatar')
+var content = require('./controllers/content')
 
 app.use('/public/', express.static(path.join(__dirname, './public/')))
 app.use('/node_modules/',express.static(path.join(__dirname, './node_modules/')))
@@ -46,6 +47,7 @@ app.get('/avatar', avatar.showPage)
 app.post('/avatar', avatar.doAvatar)
 app.get('/settings/cut', avatar.cutPage)
 app.post("/settings/cut" ,avatar.saveAvatar);
+app.post("/send"       ,content.dosave);
 
 // 配置一个处理 404 的中间件
 app.use(function(req, res) {
