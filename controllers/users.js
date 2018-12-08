@@ -5,7 +5,7 @@ var formidable=require("formidable");
 
 exports.usersData = function (req, res) {
         user.find({ "email":req.session.user.email }, { "password": 0, by: 0 }, function (err, results) {
-            console.log(results)
+            //console.log(results)
             if (results.length == 0) {
                 res.json({ "result": 0 });
             } else {
