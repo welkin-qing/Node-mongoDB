@@ -74,7 +74,7 @@
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">昵称</label>
-        <input name="nickname" type="nickname" class="form-control" id="exampleInputPassword1" placeholder="">
+        <input name="nickname" type="nickname" class="form-control" id="" placeholder="">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">介绍</label>
@@ -84,13 +84,13 @@
         <label for="exampleInputPassword1">性别</label>
         <div>
           <label class="radio-inline">
-            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0"> 男
           </label>
           <label class="radio-inline">
-            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1"> 女
           </label>
           <label class="radio-inline">
-            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 保密
+            <input name="gender" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="-1"> 保密
           </label>
         </div>
       </div>
@@ -143,32 +143,29 @@
     })
 </script>
 <script>
-  //  window.getdata=function(){
-
-  //  }
-  window.onload = function () {
-   // console.log("{{user.email}}")
-    function getdata() {
+  function getdata() {
       $.ajax({
         url: '/settings/profile',
         type: "checkout",
-        // data: formData,
-        data: "{{ user.email }}",
+        data: {email: "{{ user.email }}"},
         success: function (data) {
-          //console.log(data)
-         // console.log("rrrrrrr"+data.result)
+          console.log(data)
+
           if (data.result == 1) {
-            var date = data.data.birth.toString();
+            console.log(data.result)
+            //var date = data.data.birthday.toString();
             $("input[name=nickname]").val(data.data.nickname);
-            $("input[name=bio]").val(data.data.bio);
-            $("input[name=gender]").val(data.data.gender);
+            $("textarea[name=bio]").val(data.data.bio);
             // $("[value=" + data.data.gender + "]").attr("checked", true);
             //$("input[name=tele]").val(data.data.tele);
-            $("input[name=birthday]").val(data.data.birthday);
+            $("input[name=birthday]").val(data.data.created_time);
             // $("input[name=birth]").val((/^[0-9]{4}\-\d{2}\-\d{2}/g).exec(date));
-            $(".avatar").css({
-              "backgroundImage": "url(" + data.data.avatar + ")"
-            });
+            $(".avatar").attr('src',data.data.avatar)
+            console.log($("input[value="+data.data.gender+"]"))
+            $("input[value="+data.data.gender+"]").attr("checked","true")
+            // $(".avatar").css({
+            //   "backgroundImage": "url(" + data.data.avatar + ")"
+            // });
           } else {
             alert("尊敬的用户，请您登录！");
             location = "/"
@@ -176,9 +173,43 @@
         }
       })
     }
-    getdata();
-    window.getdata = getdata;
-  }
+    getdata()
+  //  window.getdata=function(){
+
+  //  }
+  // window.onload = function () {
+  //  // console.log("{{user.email}}")
+  //   function getdata() {
+  //     $.ajax({
+  //       url: '/settings/profile',
+  //       type: "checkout",
+  //       // data: formData,
+  //       data: "{{ user.email }}",
+  //       success: function (data) {
+  //         //console.log(data)
+  //        // console.log("rrrrrrr"+data.result)
+  //         if (data.result == 1) {
+  //           var date = data.data.birth.toString();
+  //           $("input[name=nickname]").val(data.data.nickname);
+  //           $("input[name=bio]").val(data.data.bio);
+  //           $("input[name=gender]").val(data.data.gender);
+  //           // $("[value=" + data.data.gender + "]").attr("checked", true);
+  //           //$("input[name=tele]").val(data.data.tele);
+  //           $("input[name=birthday]").val(data.data.birthday);
+  //           // $("input[name=birth]").val((/^[0-9]{4}\-\d{2}\-\d{2}/g).exec(date));
+  //           $(".avatar").css({
+  //             "backgroundImage": "url(" + data.data.avatar + ")"
+  //           });
+  //         } else {
+  //           alert("尊敬的用户，请您登录！");
+  //           location = "/"
+  //         }
+  //       }
+  //     })
+  //   }
+  //   getdata();
+  //   window.getdata = getdata;
+  // }
 </script>
 <script>
   $(function () {

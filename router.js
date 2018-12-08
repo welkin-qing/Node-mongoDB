@@ -1,11 +1,9 @@
 var express = require('express')
 var User = require('./models/user')
-//var Basic = require('./models/basic')
 var formidable = require('formidable'); 
 var multer = require('multer')
 const path = require('path');
 var fs = require('fs')
-//var avatar=require("./controllers/avatar");
 var md5 = require('blueimp-md5')
 
 var upload = multer({dest:'upload/'});
@@ -142,16 +140,16 @@ router.get('/settings/profile',function(req, res){
 })
 
 router.post('/settings/profile',function (req, res, next) {
-  console.log(req.session.user)
-  console.log(avatarurl)
+  //console.log('5555555555'+req.session.user)
+ // console.log(avatarurl)
   var body = req.body
-  console.log(body)
+  //console.log('888888888'+body)
   var form = new formidable.IncomingForm()
   //设置图片上传的存放地址
   // form.uploadDir = "./uploads"
    form.parse(req, function (err, fields, files) {
     //console.log('111111111')
-    console.log(files)
+    //console.log(files)
   //   //生成随机数
   //   var ran = parseInt(Math.random()*8999+10000)
   //   //拿到扩展名
@@ -171,28 +169,7 @@ router.get('/settings/avatarForm',function(req, res){
     res.render('login.html')
   }
 })
-// router.post('/settings/avatarForm',function(req, res){
-  
-//   var body = req.body
-//   console.log(body)
-// })
-//请求cut页面
-// router.get('/settings/cut',function(req, res){
-//   console.log("i am cut function")
-  
-//   if(req.session.user){
-//     res.render('settings/cut.html', {
-//       user: req.session.user
-//     })
-//   }else{
-//     res.render('login.html')
-//   }
-// })
-// router.post('/settings/cut',function(req, res){
-  
-//   var body = req.body
-//   console.log(body)
-// })
+
 //admin
 router.get('/settings/admin',function(req, res){
   if(req.session.user){
@@ -214,26 +191,19 @@ router.post('/settings/admin', function (req, res, next) {
     if (err) {
       return next(err)
     } else {
-
       str = req.session.user.password
       if (str === md5(md5(body.password[0]))) {
         if (body.password[1] === body.password[2]) {
-
           User.update({ email: req.session.user.email }, { $set: { password: md5(md5(body.password[1])) } }, function (err, user) {
-
             if (err) {
-
               return next(err)
-
             }
             req.session.user = user
-
             res.status(200).json({
               err_code: 0,
               message: 'OK'
             })
           })
-
         } else {
           return res.status(200).json({
             err_code: 2,

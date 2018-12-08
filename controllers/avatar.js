@@ -77,23 +77,22 @@ exports.saveAvatar = (req, res) => {
         __dirname,
         '../uploads/images/' + req.session.cuturl
     )
-    console.log('55555555555'+avatarurl)
-    //console.log(req.body)
     const { wh, y, x } = req.body
     gm(avatarurl)
         .crop(wh, wh, x, y)
         .write(avatarurl, err => {
             if (!err) {
+                console.log(req.session.user.email)
                 user.updateOne(
-                    { email: req.session.email },
+                    { "email": req.session.user.email },
                     {
-                        $set: {
-                            avatar:
-                                '../uploads/images/' + req.session.cuturl
+                        "$set": {
+                            "avatar":
+                                "/uploads/images/" + req.session.cuturl
                         }
                     },
                     function (err, result) {
-                        //console.log(11)
+                        console.log(result)
                         if (result !== '') {
                             res.json({
                                 result: 1
