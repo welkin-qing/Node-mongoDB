@@ -134,22 +134,39 @@ router.get('/settings/profile',function(req, res){
   }
 })
 
-router.post('/settings/profile',function (req, res, next) {
-  console.log('5555555555'+req.session.user)
- // console.log(avatarurl)
+router.post('/settings/profile', function (req, res, next) {
   var body = req.body
-  console.log('888888888'+body)
-  var form = new formidable.IncomingForm()
-  //设置图片上传的存放地址
-  // form.uploadDir = "./uploads"
-   form.parse(req, function (err, fields, files) {
-    //console.log('111111111')
-    //console.log(files)
-  //   //生成随机数
-  //   var ran = parseInt(Math.random()*8999+10000)
-  //   //拿到扩展名
-  //   var extname = path.extname(files.avatar)
+  //var user = req.session.user
+  User.find({
+    email: req.session.user.email
+  }, function (err, user) {
+    if (err) {
+      return next(err)
+    } else {
+      User.update({ email: req.session.user.email }, {
+        $set: {
+          nickname: body.nickname,
+          bio: body.bio,
+          gender: body.gender,
+          birthday: body.birthday
+        }
+      }, function (err, user) {
+        if (err) {
+          return next(err)
+        } else {
+          if (req.session.user.nModified != 0) {
+            req.session.user = user
+            res.status(200).json({
+              err_code: 0,
+              message: 'OK',
+              result: 1
+            })
+            
+          }
+        }
 
+      })
+    }
   })
 })
 

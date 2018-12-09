@@ -19,11 +19,7 @@ app.use('/uploads', express.static('./uploads'))
 app.engine('html', require('express-art-template'))
 app.set('views', path.join(__dirname, './views/')) // 默认就是 ./views 目录
 
-// 处理表单及文件上传的中间件
-// app.use(require('express-formidable')({
-//   uploadDir: path.join(__dirname, 'public/img'), // 上传文件目录
-//   keepExtensions: true// 保留后缀
-// }))
+
 
 // 配置解析表单 POST 请求体插件（注意：一定要在 app.use(router) 之前 ）
 // parse application/x-www-form-urlencoded

@@ -118,10 +118,7 @@
 <script>
   $('#basic_form').on('submit', function (e) {
       e.preventDefault()
-      //alert('11111')
       var formData = $(this).serialize()
-      // 
-       console.log(formData)
       $.ajax({
         url: '/settings/profile',
         type: 'post',
@@ -132,7 +129,7 @@
           if (err_code === 0) {
             // window.alert('注册成功！')
             // 服务端重定向针对异步请求无效
-            window.location.href = '/'
+            window.location.href = '/settings/profile'
           } else if (err_code === 1) {
             window.alert('邮箱或者密码错误')
           } else if (err_code === 500) {
@@ -149,67 +146,29 @@
         type: "checkout",
         data: {email: "{{ user.email }}"},
         success: function (data) {
-          console.log(data)
-
           if (data.result == 1) {
-            console.log(data.result)
+            //console.log(data)
             //var date = data.data.birthday.toString();
             $("input[name=nickname]").val(data.data.nickname);
             $("textarea[name=bio]").val(data.data.bio);
             // $("[value=" + data.data.gender + "]").attr("checked", true);
             //$("input[name=tele]").val(data.data.tele);
-            $("input[name=birthday]").val(data.data.created_time);
+            $("input[name=birthday]").val(data.data.birthday);
             // $("input[name=birth]").val((/^[0-9]{4}\-\d{2}\-\d{2}/g).exec(date));
             $(".avatar").attr('src',data.data.avatar)
-            console.log($("input[value="+data.data.gender+"]"))
+            //console.log($("input[value="+data.data.gender+"]"))
             $("input[value="+data.data.gender+"]").attr("checked","true")
             // $(".avatar").css({
             //   "backgroundImage": "url(" + data.data.avatar + ")"
             // });
           } else {
             alert("尊敬的用户，请您登录！");
-            location = "/"
+            location = "/login"
           }
         }
       })
     }
     getdata()
-  //  window.getdata=function(){
-
-  //  }
-  // window.onload = function () {
-  //  // console.log("{{user.email}}")
-  //   function getdata() {
-  //     $.ajax({
-  //       url: '/settings/profile',
-  //       type: "checkout",
-  //       // data: formData,
-  //       data: "{{ user.email }}",
-  //       success: function (data) {
-  //         //console.log(data)
-  //        // console.log("rrrrrrr"+data.result)
-  //         if (data.result == 1) {
-  //           var date = data.data.birth.toString();
-  //           $("input[name=nickname]").val(data.data.nickname);
-  //           $("input[name=bio]").val(data.data.bio);
-  //           $("input[name=gender]").val(data.data.gender);
-  //           // $("[value=" + data.data.gender + "]").attr("checked", true);
-  //           //$("input[name=tele]").val(data.data.tele);
-  //           $("input[name=birthday]").val(data.data.birthday);
-  //           // $("input[name=birth]").val((/^[0-9]{4}\-\d{2}\-\d{2}/g).exec(date));
-  //           $(".avatar").css({
-  //             "backgroundImage": "url(" + data.data.avatar + ")"
-  //           });
-  //         } else {
-  //           alert("尊敬的用户，请您登录！");
-  //           location = "/"
-  //         }
-  //       }
-  //     })
-  //   }
-  //   getdata();
-  //   window.getdata = getdata;
-  // }
 </script>
 <script>
   $(function () {
