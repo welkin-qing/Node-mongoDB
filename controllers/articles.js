@@ -9,7 +9,7 @@ exports.getArticle = (req, res) => {
         email: pathname.email,
     }, (err, result) => {
         res.send({
-            content:  result.content
+            content:  result
         })
     })
 }
