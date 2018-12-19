@@ -6,7 +6,7 @@
 <section class="container">
   <div class="row">
     <div class="col-md-5">
-      <form action="/topic/new" id="article_from" method="post">
+      <form id="article_form" method="post">
         <div class="form-group">
           <label for="exampleInputEmail1">选择板块</label>
           <select class="form-control" name="plate">
@@ -30,6 +30,7 @@
   </div>
 </section>
 {{/block}}
+{{block 'script'}}
 <script>
   $('#article_form').on('submit', function (e) {
       e.preventDefault()
@@ -40,11 +41,12 @@
         data: formData,
         dataType: 'json',
         success: function (data) {
-          console.log('2222')
-          console.log(data)
+          alert('2222')
+         // console.log(data)
           var err_code = data.err_code
+          alert(err_code)
           if (err_code === 0) {
-            window.location.href = '/topic/new'
+            window.location.href = '/topic/show'
           } else if (err_code === 1) {
             window.alert('邮箱或者密码错误')
           } else if (err_code === 500) {
@@ -54,3 +56,4 @@
       })
     })
 </script>
+{{/block}}
