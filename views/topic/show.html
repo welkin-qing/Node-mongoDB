@@ -15,7 +15,6 @@
 <section class="container">
   <div class="row">
     <div class="col-md-9">
-      {{article.content}}
       <article class="markdown-body">
       <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>测试</h1>
       <blockquote>
@@ -114,11 +113,24 @@
       <form>
         <div class="form-group">
           <label for="exampleInputPassword1">添加回复</label>
-          <textarea class="form-control" name="" id="" cols="10" rows="10"></textarea>
+          <textarea class="form-control" name="" id="" cols="10" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-success">回复</button>
       </form>
     </div>
   </div>
 </section>
+{{/block}}
+{{block 'script'}}
+<script>
+  $.ajax({
+    url: '/topic/new',
+    type: "get",
+    data:  {email: "{{ user.email }}"},
+    success: function (data) {
+      console.log(111111)
+      console.log(data)
+    }
+  })
+</script>
 {{/block}}

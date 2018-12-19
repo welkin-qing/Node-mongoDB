@@ -3,7 +3,6 @@ var url=require("url");
 var user = require('../models/user')
 //var Content=require("../models/user.js");
 //var acticals=require("../models/acticals");
-console.log('aaaaaaaaaa')
 exports.dosave=(req,res)=>{
     //存储发布文章的详细内容
     var form=new formidable.IncomingForm();

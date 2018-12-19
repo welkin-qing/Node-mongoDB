@@ -136,16 +136,6 @@ router.post('/topic/new', function(req, res, next){
     })
   })
 
-  // new Article(body).save(function(err, article){
-  //   console.log('4444444')
-  //   if(err){
-  //     return next(err)
-  //   }
-  //   res.status(200).json({
-  //     err_code:0,
-  //     message: 'ok'
-  //   })
-  // })
 })
 
 //show
@@ -159,6 +149,7 @@ router.get('/topic/show',function(req, res){
     res.render('login.html')
   }
 })
+
 
 //请求profile页面
 router.get('/settings/profile',function(req, res){
