@@ -1,5 +1,6 @@
 var express = require('express')
 var User = require('./models/user')
+var Article = require('./models/article')
 var formidable = require('formidable'); 
 var multer = require('multer')
 const path = require('path');
@@ -100,7 +101,7 @@ router.post('/register', function (req, res, next) {
     })
   })
 })
-//neww
+//new
 router.get('/topic/new',function(req, res){
   
   if(req.session.user){
@@ -111,6 +112,42 @@ router.get('/topic/new',function(req, res){
     res.render('login.html')
   }
 })
+
+router.post('/topic/new', function(req, res, next){
+  console.log(req.body)
+  var body = req.body
+  console.log(body.plate)
+  console.log(req.session.user.email)
+  //console.log(req.session.article.email)
+  new Article({
+    email: req.session.user.email,
+    nickname: req.session.user.nickname,
+    plate: body.plate,
+    topic: body.topic,
+    content: body.content
+  },).save(function(err, data){
+    if(err){
+      return next(err)
+    }
+    //req.session.data = data
+      res.status(200).json({
+      err_code:0,
+      message: 'ok'
+    })
+  })
+
+  // new Article(body).save(function(err, article){
+  //   console.log('4444444')
+  //   if(err){
+  //     return next(err)
+  //   }
+  //   res.status(200).json({
+  //     err_code:0,
+  //     message: 'ok'
+  //   })
+  // })
+})
+
 //show
 router.get('/topic/show',function(req, res){
   

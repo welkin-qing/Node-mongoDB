@@ -6,10 +6,10 @@
 <section class="container">
   <div class="row">
     <div class="col-md-5">
-      <form>
+      <form action="/topic/new" id="article_from" method="post">
         <div class="form-group">
           <label for="exampleInputEmail1">选择板块</label>
-          <select class="form-control">
+          <select class="form-control" name="plate">
             <option>分享</option>
             <option>问答</option>
             <option>招聘</option>
@@ -18,15 +18,39 @@
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">标题</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <input name="topic" type="topic" class="form-control" id="exampleInputEmail1" placeholder="topic">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">内容</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea name="content" class="form-control" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
       </form>
     </div>
   </div>
 </section>
 {{/block}}
+<script>
+  $('#article_form').on('submit', function (e) {
+      e.preventDefault()
+      var formData = $(this).serialize()
+      $.ajax({
+        url: '/topic/new',
+        type: 'post',
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+          console.log('2222')
+          console.log(data)
+          var err_code = data.err_code
+          if (err_code === 0) {
+            window.location.href = '/topic/new'
+          } else if (err_code === 1) {
+            window.alert('邮箱或者密码错误')
+          } else if (err_code === 500) {
+            window.alert('服务器忙，请稍后重试！')
+          }
+        }
+      })
+    })
+</script>

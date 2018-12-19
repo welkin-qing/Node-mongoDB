@@ -21,9 +21,13 @@
     "formidable": "^1.2.1",
     "gm": "^1.23.1",
     "jquery": "^3.2.1",
+    "marked": "^0.5.2",
     "mongoose": "^4.13.0",
     "multer": "^1.4.1",
     "mysql": "^2.16.0",
     "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "wangeditor": "^3.1.1"
   }
 }
