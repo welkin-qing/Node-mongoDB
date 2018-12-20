@@ -11,6 +11,7 @@ var app = express()
 var avatar = require('./controllers/avatar')
 var content = require('./controllers/content')
 var users = require("./controllers/users")
+var articles = require('./controllers/articles')
 
 app.use('/public/', express.static(path.join(__dirname, './public/')))
 app.use('/node_modules/',express.static(path.join(__dirname, './node_modules/')))
@@ -46,6 +47,8 @@ app.get('/settings/cut', avatar.cutPage)
 app.post("/settings/cut" ,avatar.saveAvatar);
 app.post("/send"       ,content.dosave);
 app.checkout('/settings/profile', users.usersData)
+app.checkout('/topic/show', articles.getArticle)
+
 // 配置一个处理 404 的中间件
 app.use(function(req, res) {
     res.render('404.html')

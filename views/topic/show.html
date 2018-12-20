@@ -4,6 +4,7 @@
 
 {{block 'head'}}
 <link rel="stylesheet" href="/public/css/markdown-github.css">
+<script herf="/node_modules/showdown/dist/showdown.js"></script>
 <style>
   .panel .panel-heading .action i {
     margin-right: 10px;
@@ -15,7 +16,7 @@
 <section class="container">
   <div class="row">
     <div class="col-md-9">
-      <article class="markdown-body">
+      <article class="markdown-body" id="art">
       <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>测试</h1>
       <blockquote>
         <p>杨柳青青江水平</p>
@@ -123,13 +124,22 @@
 {{/block}}
 {{block 'script'}}
 <script>
+  console.log('333333333333333')
   $.ajax({
-    url: '/topic/new',
-    type: "get",
+    url: '/topic/show',
+    type: "checkout",
     data:  {email: "{{ user.email }}"},
     success: function (data) {
-      console.log(111111)
       console.log(data)
+      if(data.result==1){
+        console.log(data.content[0].content)
+        //var text = data.content[0].content
+       // var converter = new showdown.Converter()
+        //html      = converter.makeHtml(text);
+        //console.log(html)
+        $("#art").html(data.content[0].content)
+       // console.log(data.content)
+      }
     }
   })
 </script>

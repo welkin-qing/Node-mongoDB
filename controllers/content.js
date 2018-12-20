@@ -7,7 +7,7 @@ exports.dosave=(req,res)=>{
     //存储发布文章的详细内容
     var form=new formidable.IncomingForm();
     form.parse(req,(err,fields,files)=>{
-        console.log('aaaaaaaaaa')
+       // console.log('aaaaaaaaaa')
         console.log(fields);
         
         var username=req.session.username;
