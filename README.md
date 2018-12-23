@@ -31,7 +31,7 @@
 1. 设计文章表article结构
 2. 点击发起进入new页面，然后将数据保存到article表中
 3. 完成到show页面的跳转
-4. 使用showdown插件完成对文章的渲染（类似于github readme格式）
+4. 使用showdown插件完成对当前文章的渲染（类似于github readme格式）
     - 处理好标题和板块的结构
     - 处理好发布文章的时间
 
