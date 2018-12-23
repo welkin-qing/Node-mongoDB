@@ -3,8 +3,9 @@
 {{block 'title'}}{{'多人博客 - 首页'}}{{/block}}
 
 {{block 'head'}}
-<link rel="stylesheet" href="/public/css/markdown-github.css">
-<script herf="/node_modules/showdown/dist/showdown.js"></script>
+<link rel="stylesheet" href="../../public/css/markdown-github.css">
+<script src="../../public/showdown/dist/showdown.min.js"></script>
+<script src="/node_modules/showdown/dist/showdown.js"></script>
 <style>
   .panel .panel-heading .action i {
     margin-right: 10px;
@@ -16,6 +17,12 @@
 <section class="container">
   <div class="row">
     <div class="col-md-9">
+      <div id="content_top">
+        <h2 id="content_topic">标题</h2>
+        <p id="content_plate" style="color:darkcyan;float:right">板块</p> 
+        <span id="content_time">2018-12-22</span>
+      </div>
+      <hr style="height:5px"/>
       <article class="markdown-body" id="art">
       <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>测试</h1>
       <blockquote>
@@ -40,63 +47,8 @@
       <h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>怎么做</h2>
       <h2 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>哈哈哈</h2>
     </article>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span>lipengzhou</span> commented 
-          <span>24 minutes ago</span>
-          <span class="action">
-            <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-          </span>
-        </div>
-        <div class="panel-body">
-          评论测试
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span>lipengzhou</span> commented 
-          <span>24 minutes ago</span>
-          <span class="action">
-            <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-          </span>
-        </div>
-        <div class="panel-body">
-          评论测试
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span>lipengzhou</span> commented 
-          <span>24 minutes ago</span>
-          <span class="action">
-            <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-          </span>
-        </div>
-        <div class="panel-body">
-          评论测试
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span>lipengzhou</span> commented 
-          <span>24 minutes ago</span>
-          <span class="action">
-            <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-            <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
-          </span>
-        </div>
-        <div class="panel-body">
-          评论测试
-        </div>
-      </div>
-      <div class="panel panel-default">
+    <hr/>
+      <!--<div class="panel panel-default">
         <div class="panel-heading">
           <span>lipengzhou</span> commented 
           <span>24 minutes ago</span>
@@ -117,27 +69,47 @@
           <textarea class="form-control" name="" id="" cols="10" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-success">回复</button>
-      </form>
+      </form>-->
     </div>
   </div>
 </section>
 {{/block}}
 {{block 'script'}}
+<script herf="../../node_modules/showdown/dist/showdown.js"></script>
 <script>
-  console.log('333333333333333')
   $.ajax({
     url: '/topic/show',
     type: "checkout",
     data:  {email: "{{ user.email }}"},
     success: function (data) {
-      console.log(data)
       if(data.result==1){
-        console.log(data.content[0].content)
-        //var text = data.content[0].content
-       // var converter = new showdown.Converter()
-        //html      = converter.makeHtml(text);
+        var topic = data.content[data.content.length-1].topic
+        var plate = data.content[data.content.length-1].plate
+        var creatime = data.content[data.content.length-1].created_time
+        //console.log(data)
+        //console.log(plate)
+      // console.log(data.content[0].content)
+        var text = data.content[data.content.length-1].content  //获取要转换的文字
+        //console.log(text)
+        var converter = new showdown.Converter()  //创建实例
+        html= converter.makeHtml(text);  //进行转换
         //console.log(html)
-        $("#art").html(data.content[0].content)
+       // $("#art").html(data.content[0].content)
+       //转换时间
+       var date = new Date(creatime)
+       //console.log(date)
+       var year = date.getFullYear(); //年
+       var month = date.getMonth()+1;    //js从0开始取 
+       var day = date.getDate(); //日
+       var hour = date.getHours(); 
+       var minutes = date.getMinutes(); 
+       var second = date.getSeconds();
+       //console.log(year+"年"+month+"月"+day+"日  "+hour+":"+minutes +":"+second+" ")
+       var time = year+"年"+month+"月"+day+"日  "+hour+":"+minutes +":"+second+" ";
+       document.getElementById("content_topic").innerHTML = topic;
+       document.getElementById("content_plate").innerHTML = plate;
+       document.getElementById("content_time").innerHTML = time;
+       document.getElementById("art").innerHTML = html;
        // console.log(data.content)
       }
     }

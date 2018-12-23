@@ -6,8 +6,8 @@ var Article = require('../models/article')
 
 
 exports.getArticle = function(req, res){
-    console.log('88888888889999999999999')
-    console.log(req.body)
+    //console.log('88888888889999999999999')
+   // console.log(req.body)
    // var pathname=url.parse(req.url,true).query;
     //console.log(pathname)
     Article.find({

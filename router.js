@@ -114,10 +114,10 @@ router.get('/topic/new',function(req, res){
 })
 
 router.post('/topic/new', function(req, res, next){
-  console.log(req.body)
+  //console.log(req.body)
   var body = req.body
-  console.log(body.plate)
-  console.log(req.session.user.email)
+ // console.log(body.plate)
+ // console.log(req.session.user.email)
   //console.log(req.session.article.email)
   new Article({
     email: req.session.user.email,
