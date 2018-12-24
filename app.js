@@ -41,13 +41,14 @@ app.use(
 // 把路由挂载到 app 中
 app.use(router)
 
+app.checkout('/', articles.getdata)
 app.get('/avatar', avatar.showPage)
 app.post('/avatar', avatar.doAvatar)
 app.get('/settings/cut', avatar.cutPage)
 app.post("/settings/cut" ,avatar.saveAvatar);
 app.post("/send"       ,content.dosave);
 app.checkout('/settings/profile', users.usersData)
-app.checkout('/topic/show', articles.getArticle)
+//app.get('/topic/show', articles.getArticle)
 
 // 配置一个处理 404 的中间件
 app.use(function(req, res) {

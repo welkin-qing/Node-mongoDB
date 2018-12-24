@@ -4,18 +4,9 @@
 
 {{block 'body'}}
 <section class="container">
-  <ul class="media-list">
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="{{ user.avatar }}" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">{{ user.nickname }}</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
+  <ul class="media-list" id="index_list">
   </ul>
+  <hr/>
   <nav aria-label="Page navigation">
     <ul class="pagination">
       <li>
@@ -36,4 +27,42 @@
     </ul>
   </nav>
 </section>
+{{/block}}
+{{block 'script'}}
+<script>
+  $.ajax({
+    url: '/',
+    type: 'checkout',
+    dataType: 'json',
+    success: function (data) {
+     // alert('2333333')
+      if (data.result == 1) {
+        //console.log(data.content)
+        for (var i = data.content.length-1; i >= 0; i--) {
+         // console.log(data.content[i])
+          var topic = data.content[i].topic
+          var plate = data.content[i].plate
+          var creatime = data.content[i].created_time
+          var avatar = data.content[i].avatar
+          var id = data.content[i]._id
+        // console.log(id)
+          //转换时间
+          var date = new Date(creatime)
+          //console.log(date)
+          var year = date.getFullYear(); //年
+          var month = date.getMonth() + 1;    //js从0开始取 
+          var day = date.getDate(); //日
+          var hour = date.getHours();
+          var minutes = date.getMinutes();
+          var second = date.getSeconds();
+          //console.log(year+"年"+month+"月"+day+"日  "+hour+":"+minutes +":"+second+" ")
+          var time = year + "年" + month + "月" + day + "日  " + hour + ":" + minutes + ":" + second + " ";
+          //document.getElementById("topic").innerHTML = topic;
+          //console.log(time+'   '+plate+'  '+topic)
+          $('#index_list').append('<li class="media"><div class="media-left"><a href="#"><img width="40" height="40" class="media-object" src="'+avatar+'" alt="..."></a></div><div class="media-body"><h4 id="index_topic" class="media-heading"><a href="/show/'+id+'">'+topic+'</a></h4><p id="index_plate" style="color:darkcyan;float:right">'+plate+'</p><span id="index_time">'+time+'</span></div></li>')
+        }
+      }
+    }
+  })
+</script>
 {{/block}}

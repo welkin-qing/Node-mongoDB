@@ -6,6 +6,7 @@ var multer = require('multer')
 const path = require('path');
 var fs = require('fs')
 var md5 = require('blueimp-md5')
+var url=require('url')
 
 var upload = multer({dest:'upload/'});
 var router = express.Router()
@@ -122,6 +123,7 @@ router.post('/topic/new', function(req, res, next){
   new Article({
     email: req.session.user.email,
     nickname: req.session.user.nickname,
+    avatar: req.session.user.avatar,
     plate: body.plate,
     topic: body.topic,
     content: body.content
@@ -140,7 +142,6 @@ router.post('/topic/new', function(req, res, next){
 
 //show
 router.get('/topic/show',function(req, res){
-  
   if(req.session.user){
     res.render('topic/show.html', {
       user: req.session.user
@@ -149,8 +150,36 @@ router.get('/topic/show',function(req, res){
     res.render('login.html')
   }
 })
-
-
+router.get('/show/:id', function (req, res) {
+  // console.log(req.params.id)
+  // res.render('topic/show.html', {
+  //   id:req.params.id
+  // })
+  if (req.session.user) {
+    res.render('topic/show.html', {
+      user: req.session.user,
+      id: req.params.id
+    })
+  } else {
+    res.render('topic/show.html', {
+      id: req.params.id
+    })
+  }
+})
+router.get('/getshow',function(req, res){
+  const { id }=url.parse(req.url,true).query
+  Article.findOne({_id:id},(err,result)=>{
+    // res.json({
+    //     result:1,
+    //     content:  result
+    //    // datalist:result
+    // })
+    res.send({
+      content:  result,
+      result: 1
+  })
+  })
+})
 //请求profile页面
 router.get('/settings/profile',function(req, res){
   if(req.session.user){

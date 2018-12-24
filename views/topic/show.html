@@ -16,7 +16,7 @@
 {{block 'body'}}
 <section class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="container">
       <div id="content_top">
         <h2 id="content_topic">标题</h2>
         <p id="content_plate" style="color:darkcyan;float:right">板块</p> 
@@ -24,7 +24,7 @@
       </div>
       <hr style="height:5px"/>
       <article class="markdown-body" id="art">
-      <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>测试</h1>
+     <!-- <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>测试</h1>
       <blockquote>
         <p>杨柳青青江水平</p>
       </blockquote>
@@ -46,6 +46,7 @@
       <h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>为什么</h2>
       <h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>怎么做</h2>
       <h2 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>哈哈哈</h2>
+-->
     </article>
     <hr/>
       <!--<div class="panel panel-default">
@@ -78,18 +79,22 @@
 <script herf="../../node_modules/showdown/dist/showdown.js"></script>
 <script>
   $.ajax({
-    url: '/topic/show',
-    type: "checkout",
-    data:  {email: "{{ user.email }}"},
+    url: '/getshow',
+    type: "get",
+    data:  {id: "{{ id }}"},
     success: function (data) {
+     // console.log('777777777777')
+     // console.log(data)
       if(data.result==1){
-        var topic = data.content[data.content.length-1].topic
-        var plate = data.content[data.content.length-1].plate
-        var creatime = data.content[data.content.length-1].created_time
-        //console.log(data)
+       console.log(data.content)
+        var topic = data.content.topic
+        var plate = data.content.plate
+        var creatime = data.content.created_time
+        var avatar = data.content.avatar
+       // console.log(abc)
         //console.log(plate)
       // console.log(data.content[0].content)
-        var text = data.content[data.content.length-1].content  //获取要转换的文字
+        var text = data.content.content  //获取要转换的文字
         //console.log(text)
         var converter = new showdown.Converter()  //创建实例
         html= converter.makeHtml(text);  //进行转换
@@ -110,9 +115,10 @@
        document.getElementById("content_plate").innerHTML = plate;
        document.getElementById("content_time").innerHTML = time;
        document.getElementById("art").innerHTML = html;
-       // console.log(data.content)
+      //  // console.log(data.content)
       }
     }
   })
 </script>
+
 {{/block}}

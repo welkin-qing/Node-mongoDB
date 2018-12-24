@@ -13,6 +13,10 @@ var articleSchema = new Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String,
+        default: '/public/img/avatar-default.png'
+    },
     topic: {  //标题
         type: String,
         default: ''
