@@ -31,7 +31,7 @@
     </div>
     <div>
       <p>一旦注销，不可找回，请谨慎操作</p>
-      <button class="btn btn-danger">删除</button>
+      <button id="del" class="btn btn-danger">删除</button>
     </div>
     <hr>
   </div>
@@ -65,4 +65,18 @@
       })
     })
 </script>
+<!-- <script>
+ $('#del').on('click',function(){
+   
+   user.find({
+    email: req.session.user.email
+  }, function (err, user) {
+    if (err) {
+      return next(err)
+    } else {
+      console.log('88888')
+    }
+  })
+ })
+</script> -->
 {{/block}}
