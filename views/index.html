@@ -29,7 +29,7 @@
 </section>
 {{/block}}
 {{block 'script'}}
-<script>
+<!-- <script>
   $.ajax({
     url: '/',
     type: 'checkout',
@@ -59,6 +59,43 @@
           var time = year + "年" + month + "月" + day + "日  " + hour + ":" + minutes + ":" + second + " ";
           //document.getElementById("topic").innerHTML = topic;
           //console.log(time+'   '+plate+'  '+topic)
+          $('#index_list').append('<li class="media"><div class="media-left"><a href="#"><img width="40" height="40" class="media-object" src="'+avatar+'" alt="..."></a></div><div class="media-body"><h4 id="index_topic" class="media-heading"><a href="/show/'+id+'">'+topic+'</a></h4><p id="index_plate" style="color:darkcyan;float:right">'+plate+'</p><span id="index_time">'+time+'</span></div></li>')
+        }
+      }
+    }
+  })
+</script> -->
+<script>
+  $.ajax({
+    url: '/',
+    type: 'checkout',
+    dataType: 'json',
+    success: function (data) {
+      if (data.result == 1) {
+        for (var i = data.content.length-1; i >= 0; i--) {
+          var topic = data.content[i].topic
+          var plate = data.content[i].plate
+          var creatime = data.content[i].created_time
+          var avatar = data.content[i].avatar
+          var id = data.content[i]._id
+          var date = new Date(creatime)
+          var year = date.getFullYear(); //年
+          var month = date.getMonth() + 1;    //js从0开始取 
+          var day = date.getDate(); //日
+          var hour = date.getHours();
+          var minutes = date.getMinutes();
+          var second = date.getSeconds();
+         // console.log(second)
+          function toZero(num) {    //补零操作
+            if (num < 10) {
+              return '0' + num;
+            }
+            else {
+              return '' + num;
+            }
+          }
+          console.log(toZero(5))
+          var time = year + "年" + month + "月" + day + "日  " + toZero(hour) + ":" + toZero(minutes) + ":" + toZero(second) + " ";
           $('#index_list').append('<li class="media"><div class="media-left"><a href="#"><img width="40" height="40" class="media-object" src="'+avatar+'" alt="..."></a></div><div class="media-body"><h4 id="index_topic" class="media-heading"><a href="/show/'+id+'">'+topic+'</a></h4><p id="index_plate" style="color:darkcyan;float:right">'+plate+'</p><span id="index_time">'+time+'</span></div></li>')
         }
       }
