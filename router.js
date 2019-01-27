@@ -250,6 +250,33 @@ router.get('/settings/admin',function(req, res){
   }
   //console.log(user.password)
 })
+//删除账号
+router.get('/delAdmin',function(req, res){
+  if(req.session.user){
+    User.find({
+      email: req.session.user.email
+    }, function(err, user){
+      if(err){
+        return next(err)
+      }else{
+        //console.log(user)
+        User.deleteMany({ email: req.session.user.email }, function(err, user){
+          if(err){
+            return next(err)
+          }
+          req.session.user = null
+          res.status(200).json({
+            err_code: 0,
+            message: 'OK'
+          })
+        })
+      }
+    })
+  }else{
+    res.render('login.html')
+  }
+  //console.log(user.password)
+})
 
 router.post('/settings/admin', function (req, res, next) {
   var body = req.body

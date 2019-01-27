@@ -42,7 +42,7 @@
   $('#admin_form').on('submit', function (e) {
       e.preventDefault()
       var formData = $(this).serialize()
-      console.log(formData)
+      //console.log(formData)
       $.ajax({
         url: '/settings/admin',
         type: 'post',
@@ -78,5 +78,39 @@
     }
   })
  })
+
+ $(".close").click(function () {
+      $(".model").css({
+        "display": "none"
+      });
+    })
+
+user.find({
+        email: req.session.user.email
+      }, function(err, user){
+        console.log("88888888888888888")
+      })
 </script> -->
+<script>
+  $(function () {
+    $("#del").click(function(){
+     // console.log("88888888888888888")
+      $.ajax({
+        url: '/delAdmin',
+        type: 'get',
+        data: {email: "{{ user.email }}"},
+        success: function(data){
+          //console.log(data)
+          var err_code = data.err_code
+          if (err_code === 0) {
+             window.alert('删除成功！')
+            window.location.href = '/'
+          }else {
+            window.alert('服务器忙，请稍后重试！')
+          }
+        }
+      })
+    })
+  })
+</script>
 {{/block}}
