@@ -1,3 +1,9 @@
+简体中文 | [English](./README.zh-English.md) 
+
+<div style="backgroung:#00a39f;align:center">
+
+</div>
+
 # node.js + mongodb 搭建博客
 
 #### 使用art-template模板引擎
