@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/mylogo.png)
+![](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/logo.png)
 
 </div>
 
