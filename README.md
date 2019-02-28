@@ -84,7 +84,7 @@ node app.js
 ```
 -----
 
-# node.js + mongodb 搭建博客
+## 基本配置
 
 #### 使用art-template模板引擎
 
@@ -93,8 +93,9 @@ node app.js
 - user.js为user用户表
 
 #### 登录注册
+- 使用 Html5 进行表单验证
 - 注册时验证邮箱或昵称是否存在，若存在则提示邮箱或昵称已经注册过
-- 登录时，在数据表中查找密码，若正确则登录成功，若失败则提示
+- 登录时，在数据表中查找密码，若正确则登录成功并使用两次md5加密，若失败则提示
 - 登录成功则跳转到个人主页页面
 
 #### 更换密码
@@ -103,7 +104,7 @@ node app.js
 2. 因为登录成功才会进入到基本信息设置页面，所以根据邮箱进行查找原始密码，对原始密码进行匹配
 3. 更换密码成功则跳转到登录页进行重新登录
 
-#### 图片获取
+#### 获取头像
 1. 先在个人设置里使用使用iframe标签内联一个页面，avatarForm页面，用来添加图片
 2. 再进行路由切换到cut页面使用gm进行裁剪图片，裁剪的时候使用模板引擎进行对图片大小的获取
 3. 将裁剪好的图片上传到自己的头像位置
@@ -113,12 +114,12 @@ node app.js
 2. 信息修改完成后回到个人主页
 3. 需要重新登录进行查看
 
-#### 文章编写
+#### 发表文章
 1. 设计文章表article结构
 2. 点击发起进入new页面，然后将数据保存到article表中
 3. 完成到主页的跳转
 4. 使用showdown插件完成对当前文章的渲染（类似于github readme格式）
-    - 处理好标题和板块的结构
+    - 处理好标题和文章板块的结构
     - 处理好发布文章的时间
 
 #### 实现文章的浏览
@@ -132,6 +133,33 @@ node app.js
 
 #### 注销账户
 实现了账户的注销，并且从数据库中清除该账户信息
+
+部分代码如下：
+```js
+if(req.session.user){
+    User.find({
+      email: req.session.user.email
+    }, function(err, user){
+      if(err){
+        return next(err)
+      }else{
+        //console.log(user)
+        User.deleteMany({ email: req.session.user.email }, function(err, user){
+          if(err){
+            return next(err)
+          }
+          req.session.user = null
+          res.status(200).json({
+            err_code: 0,
+            message: 'OK'
+          })
+        })
+      }
+    })
+  }else{
+    res.render('login.html')
+  }
+```
 ##### 上传代码
 1. git add .
 2. git commit -m "提交信息"
