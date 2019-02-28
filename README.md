@@ -15,6 +15,74 @@ A multi-person blog based on MongoDB database and node+express
 
 </div>
 
+-----
+
+# 安装及使用
+-  首先需要本地安装 MongoDB 数据库 
+1. 装包
+```js
+npm init -y
+npm install --save mongoose
+```
+2. 连接数据库
+```js
+mongoose.connect(‘mongodb://localhost/test’)
+```
+3. 设计数据表
+```js
+var userSchema = new Schema({
+  username: {
+    type: String,
+    required: true // 必须有
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String
+  }
+})
+```
+4. 启动数据库(另打开终端)
+```js
+mongod
+```
+###### 源码
+```
+var mongoose = require('mongoose')
+
+var Schema = mongoose.Schema
+//连接数据库
+mongoose.connect('mongodb://localhost/test')
+
+var userSchema = new Schema({
+  username: {
+    type: String,
+    required: true // 必须有
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String
+  }
+})
+
+var User = mongoose.model('User', userSchema)
+
+```
+[mongodb数据库安装及使用教程](https://blog.csdn.net/Welkin_qing/article/details/83420214)
+
+- 安装项目到本地
+```js
+git clone https://github.com/welkin-qing/Node-mongoDB
+cd Node-mongoDB
+npm install
+node app.js
+```
+
 # node.js + mongodb 搭建博客
 
 #### 使用art-template模板引擎
