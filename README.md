@@ -18,7 +18,7 @@ A multi-person blog based on MongoDB database and node+express
 -----
 
 # 安装及使用
--  首先需要本地安装 MongoDB 数据库 
+### 1.首先需要本地安装 MongoDB 数据库 
 1. 装包
 ```js
 npm init -y
@@ -75,13 +75,14 @@ var User = mongoose.model('User', userSchema)
 ```
 [mongodb数据库安装及使用教程](https://blog.csdn.net/Welkin_qing/article/details/83420214)
 
-- 安装项目到本地
+### 2.安装项目到本地
 ```js
 git clone https://github.com/welkin-qing/Node-mongoDB
 cd Node-mongoDB
 npm install
 node app.js
 ```
+-----
 
 # node.js + mongodb 搭建博客
 
