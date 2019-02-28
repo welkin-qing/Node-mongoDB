@@ -1,7 +1,9 @@
 简体中文 | [English](./README.zh-English.md) 
 
-<div align="center" color="#00a39f">
-njknjknjk
+<div align="center">
+
+![](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/mylogo.png)
+
 </div>
 
 # node.js + mongodb 搭建博客
