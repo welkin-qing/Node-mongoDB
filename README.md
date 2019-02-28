@@ -1,7 +1,7 @@
 简体中文 | [English](./README.zh-English.md) 
 
-<div style="backgroung:#00a39f;align:center">
-
+<div align="center" color="#00a39f">
+njknjknjk
 </div>
 
 # node.js + mongodb 搭建博客
