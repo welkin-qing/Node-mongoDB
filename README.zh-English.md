@@ -108,9 +108,9 @@ node app.js
 2. After routing, switch to the cut page and use gm to cut the picture. When cutting, use the template engine to get the size of the picture
 3. Upload the cropped picture to your own head position
 
-[Choose picture](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/choose.png)
+![Choose picture](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/choose.png)
 
-[Cut out pictures](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/cut.png)
+![Cut out pictures](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/cut.png)
 
 #### Personal information modification
 1. Modify the information according to the registered account

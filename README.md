@@ -109,9 +109,9 @@ node app.js
 2. 再进行路由切换到cut页面使用gm进行裁剪图片，裁剪的时候使用模板引擎进行对图片大小的获取
 3. 将裁剪好的图片上传到自己的头像位置
 
-[添加图片](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/choose.png)
+![添加图片](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/choose.png)
 
-[裁剪图片](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/cut.png)
+![裁剪图片](https://github.com/welkin-qing/Node-mongoDB/blob/master/img/cut.png)
 
 #### 个人信息修改
 1. 根据注册的账号进行对信息的修改
